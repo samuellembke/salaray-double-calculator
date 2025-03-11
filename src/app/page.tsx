@@ -65,8 +65,11 @@ export default function Home() {
     
     if (dreamNum && !isNaN(dreamNum)) {
       const doublingsForDream = calculateDoublingsForDreamSalary(startingNum, dreamNum);
+      const percentTowardDreamDoublings = ((doublingStats.exactDoublings / doublingsForDream) * 100).toFixed(2);
+      
       resultData.doublingsForDream = doublingsForDream;
       resultData.dreamSalary = dreamNum;
+      resultData.percentTowardDreamDoublings = percentTowardDreamDoublings;
     }
     
     setResult(resultData);
@@ -157,10 +160,25 @@ export default function Home() {
               </div>
               
               {result.doublingsForDream && (
-                <div className="grid grid-cols-2">
-                  <div className="font-medium">Doublings Needed for Dream:</div>
-                  <div>{result.doublingsForDream}</div>
-                </div>
+                <>
+                  <div className="grid grid-cols-2">
+                    <div className="font-medium">Doublings Needed for Dream:</div>
+                    <div>{result.doublingsForDream}</div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2">
+                    <div className="font-medium">Progress to Dream Salary:</div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-32 h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-green-500 rounded-full"
+                          style={{ width: `${Math.min(parseFloat(result.percentTowardDreamDoublings), 100)}%` }}
+                        ></div>
+                      </div>
+                      <span>{result.percentTowardDreamDoublings}%</span>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
           </div>
